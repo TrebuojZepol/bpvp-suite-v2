@@ -1,0 +1,32 @@
+{
+  "name": "bpvp-suite-v2",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Institutional monorepo — Bitcoin-native DeFi platform (scaffold)",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "dev": "bash scripts/dev.sh",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "audit": "bash scripts/security-audit.sh",
+    "ci": "bash scripts/ci-check.sh",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": ">=8.5.10"
+    }
+  }
+}

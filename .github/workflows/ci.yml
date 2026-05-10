@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.x"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: pnpm-lock.yaml
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Go workspace + tests (-race)
+        run: |
+          go work sync
+          go test ./... -C services/engine -race -count=1
+          go test ./... -C services/indexer -race -count=1
+          go test ./... -C services/watcher -race -count=1
+
+      - name: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: govulncheck (engine)
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          "$(go env GOPATH)/bin/govulncheck" ./...
+        working-directory: services/engine
+
+      - name: pnpm audit (workspace — informational until Electron/toolchain bumps)
+        continue-on-error: true
+        run: pnpm audit --audit-level=moderate
+
+      - name: Turbo test (dashboard + wallet smoke)
+        run: pnpm exec turbo run test --filter=@bpvp/dashboard --filter=@bpvp/wallet
+
+      - name: Wallet build (headless)
+        run: pnpm exec turbo run build --filter=@bpvp/wallet

@@ -1,0 +1,16 @@
+---
+description: BPVP Suite v2 lives only under ~/Developer; never use Documents/AXE for this project.
+alwaysApply: true
+---
+
+# BPVP Suite v2 — repo canónico (nada de AXE)
+
+- **Único root del proyecto:** `/Users/joubertlopez/Developer/bpvp-suite-v2` (también referido como `~/Developer/bpvp-suite-v2`).
+- **Prohibido** para este trabajo: cualquier ruta bajo `/Users/joubertlopez/Documents/AXE`, incluyendo `axe-market-suite`, copias de `bpvp`, o “el workspace que Cursor tenga abierto” si no es este repo.
+
+## Obligatorio para el agente
+
+- **Leer, editar, ejecutar comandos y citar código** solo dentro de `~/Developer/bpvp-suite-v2`.
+- **No** copiar desde AXE, **no** sugerir rutas de AXE, **no** usar archivos de AXE como referencia o plantilla para bpvp.
+- Si hace falta un path absoluto en shell o herramientas, usar **`/Users/joubertlopez/Developer/bpvp-suite-v2/...`**.
+- Si el usuario pide algo de “bpvp” / “suite v2” / engine / wallet del monorepo nuevo, asumir **este** directorio, no AXE.

@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  @apply bg-bpvp-bg text-bpvp-text-primary antialiased;
+}
+
+body {
+  @apply min-h-screen transition-all duration-150 ease-out;
+}
+
+/* Institutional dark base — palette locked to design spec */
+@layer base {
+  * {
+    @apply border-bpvp-border;
+  }
+}

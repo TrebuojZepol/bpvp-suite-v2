@@ -1,0 +1,24 @@
+# Packaging (electron-builder). Ejecutar: pnpm run pack
+# npmRebuild: false evita node-gyp en máquinas con Python 3.12+ sin distutils; argon2 suele traer prebuild para Electron.
+appId: com.bpvp.wallet
+productName: BPVP Wallet
+npmRebuild: false
+directories:
+  output: release
+  buildResources: assets
+files:
+  - dist/**/*
+  - desktop/**/*
+  - package.json
+asar: true
+mac:
+  category: public.app-category.finance
+  target: dmg
+  icon: assets/icon.png
+win:
+  target: nsis
+  icon: assets/icon.png
+linux:
+  target: AppImage
+  category: Office
+publish: null
