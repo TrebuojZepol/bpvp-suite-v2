@@ -42,6 +42,22 @@ Local Docker stack (needs `infra/docker/.env` from `.env.example` with non-empty
 cd infra/docker && docker compose up -d
 ```
 
+### Dashboard login (local)
+
+The dashboard proxies auth to the Go engine (`BPVP_ENGINE_URL`, default `http://127.0.0.1:8080`). You need Postgres + Redis + the auth binary running with the env vars from `services/engine` config (`BPVP_DATABASE_URL`, `BPVP_REDIS_URL`, JWT keys, `BPVP_ADMIN_STEPUP_TOKEN`, etc.).
+
+Seed a **password-only** dev user (default role `trader`; admins require TOTP in this codebase):
+
+```bash
+export BPVP_DATABASE_URL='postgres://USER:PASS@127.0.0.1:5432/bpvp_suite'
+export BPVP_SEED_USERNAME=trebuoj
+export BPVP_SEED_PASSWORD='your-password'   # use single quotes if it contains $ or !
+chmod +x scripts/seed-dev-user.sh
+./scripts/seed-dev-user.sh
+```
+
+Then start the engine and the dashboard (`apps/dashboard`: `pnpm run dev`) and sign in with that username/password (leave MFA off unless the user has TOTP enrolled).
+
 ## Scripts
 
 | Command | Purpose |
@@ -49,6 +65,7 @@ cd infra/docker && docker compose up -d
 | `pnpm run dev` | Dev entry (`scripts/dev.sh`) |
 | `pnpm run audit` | TruffleHog (Docker), `pnpm audit`, `govulncheck` (`scripts/security-audit.sh`) |
 | `pnpm run ci` | Local CI helper (`scripts/ci-check.sh`) |
+| `./scripts/seed-dev-user.sh` | Upsert dev user into Postgres (`cmd/seed`) |
 
 ## Documentation
 
