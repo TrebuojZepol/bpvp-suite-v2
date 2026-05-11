@@ -34,6 +34,7 @@ coverage.out
 *.pem
 *.key
 secrets/
+.local-dev/
 
 # Docker
 *.log
