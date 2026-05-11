@@ -85,7 +85,7 @@ Start the engine (with `runtime.env` sourced) and the dashboard, then sign in (l
 - [SECURITY.md](./SECURITY.md)  
 - [LICENSE](./LICENSE)  
 - [VALIDATION_REPORT.md](./VALIDATION_REPORT.md)  
-- `docs/architecture`, `docs/security`
+- `docs/architecture`, `docs/security`, [Cloudflare / dominio público](./docs/cloudflare-public-hostname.md)
 
 ## Security
 
