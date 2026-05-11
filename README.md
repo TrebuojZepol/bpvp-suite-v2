@@ -44,7 +44,18 @@ cd infra/docker && docker compose up -d
 
 ### Dashboard login (local)
 
-The dashboard proxies auth to the Go engine (`BPVP_ENGINE_URL`, default `http://127.0.0.1:8080`). You need Postgres + Redis + the auth binary running with the env vars from `services/engine` config (`BPVP_DATABASE_URL`, `BPVP_REDIS_URL`, JWT keys, `BPVP_ADMIN_STEPUP_TOKEN`, etc.).
+The dashboard proxies auth to the Go engine via **`BPVP_ENGINE_URL`**.
+
+**Recommended local ports** (when `8080` / `3000` are busy — e.g. another Docker stack):
+
+| Service | Port |
+|---------|------|
+| Auth engine (`go run ./cmd/auth`) | **8081** (`BPVP_HTTP_ADDR=:8081` in `.local-dev/runtime.env`) |
+| Next.js (`pnpm run dev` in `apps/dashboard`) | **3050** (`PORT` in `.env.local`) |
+
+Copy **`apps/dashboard/.env.example` → `apps/dashboard/.env.local`**, then start the dashboard — open **http://localhost:3050**.
+
+The engine still needs Postgres + Redis + env from `services/engine` (`BPVP_DATABASE_URL`, `BPVP_REDIS_URL`, JWT keys, `BPVP_ADMIN_STEPUP_TOKEN`, etc.). Generated secrets for one machine live in **`.local-dev/runtime.env`** (gitignored).
 
 Seed a **password-only** dev user (default role `trader`; admins require TOTP in this codebase):
 
@@ -56,7 +67,7 @@ chmod +x scripts/seed-dev-user.sh
 ./scripts/seed-dev-user.sh
 ```
 
-Then start the engine and the dashboard (`apps/dashboard`: `pnpm run dev`) and sign in with that username/password (leave MFA off unless the user has TOTP enrolled).
+Start the engine (with `runtime.env` sourced) and the dashboard, then sign in (leave MFA off unless the user has TOTP enrolled).
 
 ## Scripts
 
